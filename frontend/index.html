@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>液压与气压传动 · 实验规范检测</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <h1>液压与气压传动实验规范检测</h1>
+      <p class="subtitle">
+        车辆工程2024级 · 辅助教师发现报告与操作问题 ·
+        <strong>最终判断由教师完成</strong>
+      </p>
+    </header>
+
+    <section class="panel config">
+      <label>
+        检测类型
+        <select id="checkType">
+          <option value="text">文本（实验报告）</option>
+          <option value="image">图片（实验台现场）</option>
+          <option value="video">视频（操作过程）</option>
+        </select>
+      </label>
+      <label>
+        实验类型
+        <select id="experimentType">
+          <option value="hydraulic">液压回路</option>
+          <option value="pneumatic">气动回路</option>
+          <option value="circuit_design">回路设计</option>
+          <option value="measurement">测量实验</option>
+        </select>
+      </label>
+      <label>
+        年级/班级
+        <input id="grade" type="text" value="2024级本科" />
+      </label>
+      <label id="experimentNameWrap">
+        实验名称
+        <input id="experimentName" type="text" placeholder="如：液压泵性能测试" />
+      </label>
+      <label id="frameIntervalWrap" class="hidden">
+        抽帧间隔（秒）
+        <input id="frameInterval" type="number" value="1" min="0.5" step="0.5" />
+      </label>
+      <label>
+        API 地址（留空=同源）
+        <input id="apiBase" type="text" placeholder="默认与页面同源，如需跨机可填 http://127.0.0.1:18100" />
+      </label>
+    </section>
+
+    <section class="panel input-area">
+      <div id="textInput">
+        <label>实验报告内容</label>
+        <textarea id="content" rows="14" placeholder="粘贴实验报告全文…"></textarea>
+      </div>
+      <div id="fileInput" class="hidden">
+        <label id="fileLabel">上传文件</label>
+        <input id="file" type="file" />
+      </div>
+      <button id="submitBtn" type="button">开始检测</button>
+      <p id="status" class="status"></p>
+    </section>
+
+    <section id="result" class="panel result hidden">
+      <h2>检测结果</h2>
+      <div class="summary-row">
+        <div class="metric">
+          <span class="label">总分</span>
+          <span id="score" class="value">—</span>
+        </div>
+        <div class="metric">
+          <span class="label">风险等级</span>
+          <span id="level" class="badge">—</span>
+        </div>
+        <div class="metric">
+          <span class="label">教师复核</span>
+          <span id="teacherReview" class="value">—</span>
+        </div>
+      </div>
+      <p id="summaryText" class="summary-text"></p>
+      <h3>问题列表</h3>
+      <div id="issuesList"></div>
+      <h3 id="keyEventsTitle" class="hidden">视频关键时间段</h3>
+      <div id="keyEventsList"></div>
+      <details class="raw-json">
+        <summary>原始 JSON</summary>
+        <pre id="rawJson"></pre>
+      </details>
+    </section>
+
+    <footer class="footer">
+      <p>工学院 · 液压与气压传动（宋正河） · 课程 AI 辅助工具 v1.0</p>
+    </footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+course_id: 20
+course_slug: "hydraulic-pneumatic"
+feature_id: "f01"
+app_id: "course-20-hydraulic-pneumatic-f01"
+
+version: "1.0.0"
+
+image:
+  registry: "baixiao-tese-deploy.shennong.cc"
+  repository: "yuketang/course-20-hydraulic-pneumatic-f01"
+  tag: "1.0.0"
+
+notes: "初版上线：液压与气压传动实验规范检测（文本/图片/视频，大模型分析）"
+submitted_by: "石家霖、马瑞笛"
+submitted_at: "2026-07-10"

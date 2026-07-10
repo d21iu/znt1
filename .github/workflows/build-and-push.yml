@@ -1,0 +1,80 @@
+name: build-and-push
+
+# 云端构建并推送特色功能镜像到神农百晓 Registry
+# app_id: course-20-hydraulic-pneumatic-f01
+
+on:
+  # 手动触发（在 GitHub 网页 Actions 页面点 Run workflow）
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "镜像版本号（语义化，如 1.0.0；禁止 latest/test）"
+        required: true
+        default: "1.0.0"
+  # 打 tag（如 v1.0.0）时自动触发
+  push:
+    tags:
+      - "v*"
+
+env:
+  REGISTRY: baixiao-tese-deploy.shennong.cc
+  REPOSITORY: yuketang/course-20-hydraulic-pneumatic-f01
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 计算版本号
+        id: ver
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            # 从 tag 去掉前缀 v，例如 v1.0.0 -> 1.0.0
+            VER="${GITHUB_REF_NAME#v}"
+          else
+            VER="${{ github.event.inputs.version }}"
+          fi
+          echo "version=$VER" >> "$GITHUB_OUTPUT"
+          echo "将构建版本: $VER"
+
+      - name: 设置 Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: 探测 Registry 是否可达且是否需要登录
+        id: probe
+        run: |
+          set +e
+          CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 20 "https://${REGISTRY}/v2/")
+          echo "Registry /v2/ 返回: $CODE"
+          if [ "$CODE" = "000" ]; then
+            echo "::error::无法连接 Registry (${REGISTRY})。它可能只在校内网可访问，GitHub 云端 runner 到不了。请改用校内机器或联系运维。"
+            exit 1
+          fi
+          if [ "$CODE" = "401" ]; then
+            echo "need_login=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "need_login=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 登录 Registry（仅当返回 401 时）
+        if: steps.probe.outputs.need_login == 'true'
+        uses: docker/login-action@v3
+        with:
+          registry: baixiao-tese-deploy.shennong.cc
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: 构建并推送镜像
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ steps.ver.outputs.version }}
+
+      - name: 完成提示
+        run: |
+          echo "已推送: ${REGISTRY}/${REPOSITORY}:${{ steps.ver.outputs.version }}"
+          echo "下一步：更新 deliveries 仓 manifest 并提 PR。"

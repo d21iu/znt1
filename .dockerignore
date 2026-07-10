@@ -1,0 +1,21 @@
+# 虚拟环境 / 缓存
+backend/.venv/
+**/__pycache__/
+*.pyc
+
+# 密钥与本地环境
+backend/.env
+.env
+
+# 运行期产物
+uploads/
+*.tar
+*.tar.gz
+*.zip
+
+# 文档与样例（不需要进镜像）
+docs/
+samples/
+prompts/
+skills/
+*.md

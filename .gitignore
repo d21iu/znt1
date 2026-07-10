@@ -1,0 +1,34 @@
+# ---- 密钥与环境变量（绝不提交）----
+.env
+backend/.env
+*.env
+!*.env.example
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.venv/
+.venv-verify/
+venv/
+env/
+
+# ---- 运行时产物 ----
+backend/uploads/
+uploads/
+*.log
+
+# ---- 大文件 / 模型（不进 Git，不进镜像）----
+*.tar
+*.tar.gz
+*.zip
+*.pdf
+*.mp4
+*.bin
+*.pt
+*.onnx
+
+# ---- 编辑器 / 系统 ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
