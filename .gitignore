@@ -32,3 +32,14 @@ uploads/
 .idea/
 .DS_Store
 Thumbs.db
+
+# ---- 临时/令牌文件（绝不提交）----
+.gitee_token
+_pr33_check.txt
+_new.json
+_registry_copy.py
+/cd
+/git
+_*.py
+_*.json
+_*.yaml

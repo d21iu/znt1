@@ -7,11 +7,11 @@
 | 项目 | 内容 |
 |------|------|
 | 课序号 | 20 |
-| app_id | `course-20-hydraulic-pneumatic-f01` |
+| app_id | `course-20-hydraulic-f01` |
 | 版本 | 1.0.0 |
 | host 端口 | 18100 |
 | 容器端口 | 8080 |
-| 镜像 | `baixiao-tese-deploy.shennong.cc/yuketang/course-20-hydraulic-pneumatic-f01:1.0.0` |
+| 镜像 | `baixiao-tese-deploy.shennong.cc/yuketang/course-20-hydraulic-f01:1.0.0` |
 
 设计说明见 [APP_SPEC.md](APP_SPEC.md)，manifest 草稿见 [manifest.draft.yaml](manifest.draft.yaml)。
 
@@ -31,11 +31,11 @@ uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 
 ```bash
 # 在仓库根目录（含 Dockerfile）
-docker build -t course-20-hydraulic-pneumatic-f01:1.0.0 .
+docker build -t course-20-hydraulic-f01:1.0.0 .
 
 # host 端口 18100 → 容器 8080
 docker run --rm -p 18100:8080 --env-file backend/.env.example \
-  course-20-hydraulic-pneumatic-f01:1.0.0
+  course-20-hydraulic-f01:1.0.0
 
 # 自测：必须 HTTP 200，body 含 status / app_id / version
 curl http://127.0.0.1:18100/health
@@ -45,13 +45,13 @@ curl http://127.0.0.1:18100/health
 ## 推送与提 PR（自测通过后）
 
 ```bash
-docker tag course-20-hydraulic-pneumatic-f01:1.0.0 \
-  baixiao-tese-deploy.shennong.cc/yuketang/course-20-hydraulic-pneumatic-f01:1.0.0
-docker push baixiao-tese-deploy.shennong.cc/yuketang/course-20-hydraulic-pneumatic-f01:1.0.0
+docker tag course-20-hydraulic-f01:1.0.0 \
+  baixiao-tese-deploy.shennong.cc/yuketang/course-20-hydraulic-f01:1.0.0
+docker push baixiao-tese-deploy.shennong.cc/yuketang/course-20-hydraulic-f01:1.0.0
 ```
 
 然后 Fork `yuketang-tese-deliveries`，把 `manifest.draft.yaml` 内容放到
-`courses/20-hydraulic-pneumatic/f01/manifest.yaml`，提 PR 等运维合并。
+`courses/20-hydraulic/f01/manifest.yaml`，提 PR 等运维合并。
 
 ## 项目结构
 

@@ -7,7 +7,7 @@
 | 课序号 | 20 |
 | 课程名称 | 液压与气压传动 |
 | 负责人（技术开发同学） | 石家霖、马瑞笛 |
-| app_id | `course-20-hydraulic-pneumatic-f01` |
+| app_id | `course-20-hydraulic-f01` |
 | 版本 | 1.0.0 |
 | host 端口 | 18100 |
 | 容器端口 | 8080 |

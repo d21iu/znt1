@@ -1,7 +1,7 @@
 name: build-and-push
 
 # 云端构建并推送特色功能镜像到神农百晓 Registry
-# app_id: course-20-hydraulic-pneumatic-f01
+# app_id: course-20-hydraulic-f01
 
 on:
   # 手动触发（在 GitHub 网页 Actions 页面点 Run workflow）
@@ -10,7 +10,7 @@ on:
       version:
         description: "镜像版本号（语义化，如 1.0.0；禁止 latest/test）"
         required: true
-        default: "1.0.0"
+        default: "1.0.2"
   # 打 tag（如 v1.0.0）时自动触发
   push:
     tags:
@@ -18,7 +18,7 @@ on:
 
 env:
   REGISTRY: baixiao-tese-deploy.shennong.cc
-  REPOSITORY: yuketang/course-20-hydraulic-pneumatic-f01
+  REPOSITORY: yuketang/course-20-hydraulic-f01
 
 jobs:
   build-push:

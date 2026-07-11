@@ -147,6 +147,48 @@ textarea {
   margin-top: 0.75rem;
 }
 
+/* 导入测试案例栏 */
+.demo-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  padding: 0.75rem 0.85rem;
+  margin-bottom: 0.9rem;
+  background: rgba(59, 130, 246, 0.06);
+  border: 1px dashed var(--brand-blue-light);
+  border-radius: 8px;
+}
+
+.demo-bar .demo-label {
+  flex-direction: row;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--brand-blue-dark);
+}
+
+.demo-bar select {
+  flex: 1 1 240px;
+  min-width: 200px;
+}
+
+/* 次要按钮：导入 */
+button.secondary {
+  background: #fff;
+  color: var(--brand-blue-dark);
+  border: 1px solid var(--brand-blue-light);
+  border-radius: 8px;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+button.secondary:hover {
+  background: rgba(59, 130, 246, 0.1);
+}
+
 .hidden {
   display: none !important;
 }

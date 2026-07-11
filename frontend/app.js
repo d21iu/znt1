@@ -4,24 +4,112 @@ const checkType = $("checkType");
 const experimentType = $("experimentType");
 const grade = $("grade");
 const experimentName = $("experimentName");
-const frameInterval = $("frameInterval");
-const apiBase = $("apiBase");
 const content = $("content");
 const fileInput = $("file");
 const submitBtn = $("submitBtn");
 const statusEl = $("status");
 const resultPanel = $("result");
+const demoCase = $("demoCase");
+const importDemoBtn = $("importDemoBtn");
+
+// 内置文本测试案例（来自课程 samples/text），供教师快速体验检测效果
+const DEMO_CASES = [
+  {
+    id: "complete",
+    label: "① 规范完整报告（液压泵性能测试）",
+    experiment_name: "液压泵性能测试实验",
+    content: `实验名称：液压泵性能测试实验
+实验目的：掌握齿轮泵容积效率、总效率的测试方法，理解压力-流量特性。
+实验原理：在额定转速下，通过溢流阀调节负载压力，记录泵出口流量与输入功率，计算效率。
+实验步骤：
+1. 检查油箱油位与油液清洁度，确认溢流阀处于全开。
+2. 启动电机，空载运行 2 min 排气。
+3. 逐步关闭溢流阀，记录压力 2、4、6、8、10 MPa 下的流量与功率。
+4. 停机后泄压，擦拭漏油。
+实验数据：
+| 压力(MPa) | 流量(L/min) | 输入功率(kW) |
+| 2 | 18.2 | 1.05 |
+| 4 | 17.6 | 1.12 |
+| 6 | 16.9 | 1.18 |
+| 8 | 15.8 | 1.25 |
+| 10 | 14.1 | 1.30 |
+误差分析：流量采用涡轮流量计，精度 ±1%；功率表精度 ±0.5%。主要误差来源为油温变化引起粘度改变。
+结论：随负载压力升高，泵流量下降，总效率在 6 MPa 附近最高，与教材趋势一致。
+安全说明：实验全程佩戴护目镜；调压缓慢；拆卸接头前必须泄压。`,
+  },
+  {
+    id: "missing_purpose",
+    label: "② 缺实验目的/原理（气动回路速度控制）",
+    experiment_name: "气动回路速度控制",
+    content: `实验名称：气动回路速度控制
+实验步骤：连接气缸、节流阀与换向阀，调节排气节流观察速度。
+数据：气压 0.5，气缸行程 100，时间 3.2
+结论：节流越小速度越慢。`,
+  },
+  {
+    id: "missing_units",
+    label: "③ 数据缺单位（溢流阀开启压力）",
+    experiment_name: "溢流阀开启压力测定",
+    content: `实验目的：测定溢流阀开启压力
+实验步骤：缓慢升高泵出口压力，记录溢流阀开始溢流时的压力读数。
+实验数据：第一次 6.2，第二次 6.5，第三次 6.3
+结论：溢流阀调定压力约为 6.3。`,
+  },
+  {
+    id: "no_error_analysis",
+    label: "④ 缺误差分析（单作用气缸回路）",
+    experiment_name: "单作用气缸气动回路",
+    content: `实验目的：分析单作用气缸气动回路
+实验原理：压缩空气经减压阀、换向阀进入气缸无杆腔，推动活塞伸出。
+实验步骤：搭建回路，调节减压阀至 0.6 MPa，记录伸出行程与时间。
+实验数据：压力 0.6 MPa，行程 80 mm，时间 1.2 s，平均速度 66.7 mm/s。
+结论：压力越高伸出越快。`,
+  },
+  {
+    id: "unreasonable",
+    label: "⑤ 结论不合理（节流调速回路）",
+    experiment_name: "液压节流调速回路特性",
+    content: `实验目的：液压系统节流调速回路特性
+实验数据：节流口开度 50% 时负载压力 5 MPa、流量 12 L/min；开度 100% 时 3 MPa、20 L/min。
+误差分析：压力表精度 1.6 级。
+结论：节流口开度越大，负载压力越高，说明节流口开大后阻力更大，与伯努利方程矛盾，数据完全错误应重做。`,
+  },
+];
+
+function populateDemoCases() {
+  DEMO_CASES.forEach((c) => {
+    const opt = document.createElement("option");
+    opt.value = c.id;
+    opt.textContent = c.label;
+    demoCase.appendChild(opt);
+  });
+}
+
+function importDemoCase() {
+  const c = DEMO_CASES.find((x) => x.id === demoCase.value);
+  if (!c) {
+    statusEl.textContent = "请先选择一个示例报告";
+    return;
+  }
+  checkType.value = "text";
+  syncUI();
+  experimentType.value = "hydraulic";
+  experimentName.value = c.experiment_name;
+  content.value = c.content;
+  statusEl.textContent = `已导入示例：${c.experiment_name}`;
+}
 
 function syncUI() {
   const type = checkType.value;
   $("textInput").classList.toggle("hidden", type !== "text");
   $("fileInput").classList.toggle("hidden", type === "text");
   $("experimentNameWrap").classList.toggle("hidden", type !== "text");
-  $("frameIntervalWrap").classList.toggle("hidden", type !== "video");
-  $("fileLabel").textContent = type === "image" ? "上传实验图片" : "上传操作视频";
-  fileInput.accept = type === "image" ? "image/*" : "video/*";
+  $("fileLabel").textContent = "上传实验图片";
+  fileInput.accept = "image/*";
 }
 
+populateDemoCases();
+importDemoBtn.addEventListener("click", importDemoCase);
 checkType.addEventListener("change", syncUI);
 syncUI();
 
@@ -84,8 +172,8 @@ function renderReport(data) {
 }
 
 async function runCheck() {
-  // 留空则用同源地址（容器内前后端同端口部署时的默认行为）
-  const base = (apiBase.value.trim() || window.location.origin).replace(/\/$/, "");
+  // 前后端同源部署，直接用当前站点 origin
+  const base = window.location.origin.replace(/\/$/, "");
   const type = checkType.value;
   submitBtn.disabled = true;
   statusEl.textContent = "检测中，请稍候…";
@@ -109,19 +197,15 @@ async function runCheck() {
       });
     } else {
       const file = fileInput.files[0];
-      if (!file) throw new Error("请选择文件");
+      if (!file) throw new Error("请选择图片");
       const form = new FormData();
-      form.append(type === "image" ? "image" : "video", file);
+      form.append("image", file);
       form.append("experiment_type", experimentType.value);
       form.append("grade", grade.value);
-      if (type === "video") {
-        form.append("frame_interval", frameInterval.value || "1");
-      }
-      const path =
-        type === "image"
-          ? "/api/hydraulic-lab/check-image"
-          : "/api/hydraulic-lab/check-video";
-      res = await fetch(`${base}${path}`, { method: "POST", body: form });
+      res = await fetch(`${base}/api/hydraulic-lab/check-image`, {
+        method: "POST",
+        body: form,
+      });
     }
 
     if (!res.ok) {
