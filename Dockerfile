@@ -17,6 +17,8 @@ RUN pip install --no-cache-dir -r backend/requirements.txt \
 # 拷贝后端代码与前端静态页
 COPY backend/app ./backend/app
 COPY frontend ./frontend
+# 提示词模板：ai_client.py 运行时读取 /app/prompts/{text,image,video}.md，必须打进镜像
+COPY prompts ./prompts
 
 ENV PYTHONUNBUFFERED=1 \
     AI_ENABLED=true

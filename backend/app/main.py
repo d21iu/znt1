@@ -9,7 +9,7 @@ from app.config import ai_enabled, base_url, text_model, vision_model
 from app.routes.check import router as check_router
 
 APP_ID = "course-20-hydraulic-f01"
-APP_VERSION = "1.0.2"
+APP_VERSION = "1.0.3"
 
 # 前端静态目录（容器内为 /app/frontend，本地开发为仓库根 frontend）
 _FRONTEND_DIR = Path(__file__).resolve().parents[2] / "frontend"

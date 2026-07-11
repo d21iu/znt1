@@ -10,7 +10,7 @@ on:
       version:
         description: "镜像版本号（语义化，如 1.0.0；禁止 latest/test）"
         required: true
-        default: "1.0.2"
+        default: "1.0.3"
   # 打 tag（如 v1.0.0）时自动触发
   push:
     tags:

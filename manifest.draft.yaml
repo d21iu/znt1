@@ -3,13 +3,13 @@ course_slug: "hydraulic"
 feature_id: "f01"
 app_id: "course-20-hydraulic-f01"
 
-version: "1.0.2"
+version: "1.0.3"
 
 image:
   registry: "baixiao-tese-deploy.shennong.cc"
   repository: "yuketang/course-20-hydraulic-f01"
-  tag: "1.0.2"
+  tag: "1.0.3"
 
-notes: "1.0.2：前端新增导入测试案例，移除视频检测选项，仅保留文本与图片分析"
+notes: "1.0.3：Dockerfile 补 COPY prompts 到 /app/prompts，修复缺提示词文件导致检测 500（FileNotFoundError）"
 submitted_by: "石家霖、马瑞笛"
 submitted_at: "2026-07-11"
