@@ -16,6 +16,8 @@ uploads/
 # 文档与样例（不需要进镜像）
 docs/
 samples/
-prompts/
 skills/
 *.md
+# prompts 是运行时必需（ai_client.py 读 /app/prompts/*.md），必须保留进镜像
+!prompts/
+!prompts/*.md
